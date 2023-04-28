@@ -1,0 +1,10 @@
+version: v1
+name: buf.build/rossmerr/eventsprotoapi
+deps:
+  - buf.build/rossmerr/eventsprotoapi
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT

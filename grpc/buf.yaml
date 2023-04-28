@@ -1,0 +1,10 @@
+version: v1
+name: buf.build/grpc/health
+deps:
+  - buf.build/grpc/health
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT

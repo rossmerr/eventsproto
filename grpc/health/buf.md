@@ -1,0 +1,5 @@
+## GRPC Health Checking Protocol
+
+Health checks are used to probe whether the server is able to handle rpcs. The client-to-server health checking can happen from point to point or via some control system. A server may choose to reply “unhealthy” because it is not ready to take requests, it is shutting down or some other reason. The client can act accordingly if the response is not received within some time window or the response says unhealthy in it.
+
+A GRPC service is used as the health checking mechanism for both simple client-to-server scenario and other control systems such as load-balancing. Being a high level service provides some benefits. Firstly, since it is a GRPC service itself, doing a health check is in the same format as a normal rpc. Secondly, it has rich semantics such as per-service health status. Thirdly, as a GRPC service, it is able reuse all the existing billing, quota infrastructure, etc, and thus the server has full control over the access of the health checking service.
