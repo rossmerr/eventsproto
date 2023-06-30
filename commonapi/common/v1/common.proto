@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package common.v1;
+
+enum AckPolicy {
+  ACK_POLICY_UNSPECIFIED = 0;
+  ACK_POLICY_EXPLICIT = 1;
+  ACK_POLICY_NONE = 2;
+  ACK_POLICY_ALL = 3;
+}
+
+message Event {}
+
+message Cron {
+  // Cron expression
+  string expressions = 5;
+}

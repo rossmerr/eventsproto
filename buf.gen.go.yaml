@@ -2,11 +2,12 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com
-    override:
-      buf.build/rossmerr/eventsprotoapi: domain
+    default: github.com/rossmerr/events-server/domain
+
 plugins:
   - plugin: buf.build/protocolbuffers/go:v1.30.0
-    out: ../events-server/
+    out: ../events-server/domain
+    opt: paths=source_relative
   - plugin: buf.build/grpc/go:v1.3.0
-    out: ../events-server/
+    out: ../events-server/domain
+    opt: paths=source_relative

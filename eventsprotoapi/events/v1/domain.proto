@@ -2,12 +2,28 @@ syntax = "proto3";
 
 package events.v1;
 
+import "common/v1/common.proto";
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 service DomainEventsService {
+  rpc Stream(StreamRequest) returns (StreamResponse) {}
   rpc Publish(stream PublishRequest) returns (PublishResponse) {}
   rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse) {}
+  rpc Acknowledgement(stream AcknowledgementRequest) returns (stream AcknowledgementResponse) {}
+}
+
+message StreamRequest {
+  string name = 1;
+  string subject = 2;
+  common.v1.AckPolicy policy = 3;
+  string replicas = 4;
+  int32 max_deliver = 5;
+  google.protobuf.Timestamp ack_wait = 6;
+}
+
+message StreamResponse {
+  string id = 1;
 }
 
 message PublishRequest {
@@ -18,8 +34,8 @@ message PublishRequest {
   google.protobuf.Any message = 5;
 
   oneof action {
-    Event event = 6;
-    Cron cron = 7;
+    common.v1.Event event = 6;
+    common.v1.Cron cron = 7;
   }
 }
 
@@ -27,18 +43,26 @@ message PublishResponse {}
 
 message SubscribeRequest {
   string subject = 1;
+  string stream_name = 2;
+  int32 rate_limit = 3;
 }
 
 message SubscribeResponse {
-  string subject = 1;
+  string id = 1;
   google.protobuf.Timestamp event_time = 2;
   map<string, string> header = 3;
   google.protobuf.Any message = 4;
 }
 
-message Event {}
+message AcknowledgementRequest {
+  string id = 1;
 
-message Cron {
-  // Cron expression
-  string expressions = 5;
+  enum Acknowledgement {
+    ACKNOWLEDGEMENT_UNSPECIFIED = 0;
+    ACKNOWLEDGEMENT_ACK = 1;
+    ACKNOWLEDGEMENT_NACK = 2;
+    ACKNOWLEDGEMENT_REJECT = 3;
+  }
 }
+
+message AcknowledgementResponse {}

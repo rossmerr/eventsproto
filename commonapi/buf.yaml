@@ -1,5 +1,5 @@
 version: v1
-name: buf.build/rossmerr/eventsprotoapi
+name: buf.build/rossmerr/commonapi
 breaking:
   use:
     - FILE
